@@ -1,5 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
+import { TangentSpaceNormalMap } from "three";
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -30,10 +31,18 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 
+//Time
+let time = Date.now();
+
 // Animations
 const tick = () => {
-  //Update objects
-  mesh.position.x += 0.01;
+  //Time
+  const currentTime = Date.now();
+  const deltaTime = currentTime - time;
+  time = currentTime;
+
+  //Update objects - using deltatime to make the speed same in any platforms
+  mesh.rotation.y += 0.001 * deltaTime;
 
   //Render
   renderer.render(scene, camera);
